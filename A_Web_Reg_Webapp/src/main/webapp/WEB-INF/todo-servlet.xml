@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	    xmlns:context="http://www.springframework.org/schema/context"
+	    xmlns:mvc="http://www.springframework.org/schema/mvc"
+	    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	    xmlns:tx="http://www.springframework.org/schema/tx"
+	    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	    http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+	    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+	    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+		
+		<!-- Add support for component scanning -->
+	    <context:component-scan base-package="com" />
+	
+		<!-- Add support for conversion, formatting and validation support -->
+	    <mvc:annotation-driven />
+	    
+	    <!-- Define Spring MVC view resolver -->
+	    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+	    	<!-- <property name="prefix" value=""></property> -->
+	    	<property name="suffix" value=".jsp"></property>
+	    </bean>
+	    
+	    <mvc:resources mapping="/resources/**" location="/resources/" />
+		
+	<bean id="ds" class="org.springframework.jdbc.datasource.DriverManagerDataSource">    
+			<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>    
+			<property name="url" value="jdbc:mysql://localhost:3306/springmvc"></property>    
+			<property name="username" value="root"></property>    
+			<property name="password" value="root"></property>    
+	</bean>
+
+	<bean id="sf"
+		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+		<property name="dataSource" ref="ds" />
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+				<!-- <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop> -->
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
+			</props>
+		</property>
+		<property name="annotatedClasses">
+			<list>
+				<value>com.uvd.Entity.Wifeless</value>
+			</list>
+		</property>
+	</bean>
+    
+<!--  Step 4: Enable configuration of transactional behavior based on annotations -->
+	 <!-- <tx:annotation-driven transaction-manager="myTransactionManager" /> -->
+	    
+	    
+</beans>
